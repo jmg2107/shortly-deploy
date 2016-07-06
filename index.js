@@ -1,6 +1,8 @@
 var app = require('./server.js');
 
- var port = 4568;
+//if we're on Heroku, the port will be assigned to the
+//process.env variable.
+ var port = process.env.PORT || 4568;
 
 app.listen(port);
 

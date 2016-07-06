@@ -1,13 +1,17 @@
 {
   "name": "shortly-express",
   "version": "0.0.1",
+  "engines": {
+    "node": "0.12.7"
+  },
   "description": "shortly using express",
   "main": "index.js",
   "repository": "",
   "license": "Proprietary",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node index.js & ./node_modules/.bin/mocha --bail --reporter nyan test/backup.js; pkill -n node;"
   },
   "dependencies": {
     "knex": "~0.5.7",
@@ -30,6 +34,7 @@
     "grunt-contrib-cssmin": "^0.9.0",
     "grunt-nodemon": "^0.2.1",
     "grunt-mocha-test": "^0.10.0",
+    "lodash": "~2.4",
     "mongoose": "~3.8.8",
     "bluebird": "1.0.8"
   },
