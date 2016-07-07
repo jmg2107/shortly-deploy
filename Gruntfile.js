@@ -1,8 +1,24 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    //concat the src code needed to run the app
+    //uglify public/lib folders, ** update index.ejs to point to
+    //minified versions
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+        options: {
+          separator: ';',
+        },
+        dist: {
+          src: ['./server.js',
+                './index.js',
+                './public/lib/*.js',
+                './public/client/*.js',
+                './lib/*.js'
+                ],
+
+          dest: './public/dist/built.js',
+        },
     },
 
     mochaTest: {
@@ -10,7 +26,7 @@ module.exports = function(grunt) {
         options: {
           reporter: 'spec'
         },
-        src: ['test/**/*.js']
+        src: ['test/**/backup.js']
       }
     },
 
@@ -21,11 +37,22 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      dist: { //can add options to uglify ie. source map/gzip
+        files: {
+          './public/dist/built.min.js':
+          ['./public/dist/built.js']
+        }
+      }
     },
 
     jshint: {
       files: [
         // Add filespec list here
+        './*.js',
+        './public/client/*.js',
+        './app/**/*.js',
+        './app/*.js',
+        './lib/*.js',
       ],
       options: {
         force: 'true',
@@ -38,6 +65,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['*.css', '!*.min.css'],
+          dest: 'public/dist',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -58,8 +94,19 @@ module.exports = function(grunt) {
     },
 
     shell: {
+      // multiple: {
+      //       command: [
+      //           'git add .',
+      //           'ls'
+      //       ].join('&&')
+      // }
+
       prodServer: {
-      }
+        command: 'git push heroku master'
+      },
+      devServer: {
+        command: 'git push origin master'
+      },
     },
   });
 
@@ -94,19 +141,43 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'concat',
+    'uglify',
+    'jshint',
+    'cssmin',
+    'test'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run(['shell:prodServer']);
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run([
+        'shell:devServer',
+        'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
+  grunt.registerTask('deploy', function(n){
     // add your deploy tasks here
-  ]);
+    // development: build, upload -> nodemon
+    // production: build, upload -> heroku
+    if(grunt.option('prod')) {
+      // add your production server task here
+      grunt.task.run([
+        'build',
+        'upload' + n
+        ]);
+    } else {
+      grunt.task.run([
+        'build',
+        'upload'
+         ]);
+    }
+
+
+  });
 
 
 };
