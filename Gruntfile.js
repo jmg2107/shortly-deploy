@@ -175,9 +175,5 @@ module.exports = function(grunt) {
         'upload'
          ]);
     }
-
-
   });
-
-
 };
