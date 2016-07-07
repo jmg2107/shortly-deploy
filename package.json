@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "test": "node index.js & ./node_modules/.bin/mocha --bail --reporter nyan test/backup.js; pkill -n node;"
+    "test": "node index.js & ./node_modules/.bin/mocha --bail --reporter nyan test/ServerSpec.js; pkill -n node;"
   },
   "dependencies": {
     "knex": "~0.5.7",

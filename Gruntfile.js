@@ -143,7 +143,7 @@ module.exports = function(grunt) {
     'test'
   ]);
 
-  grunt.registerTask('default', ['build']);
+  grunt.registerTask('heroku:production', ['build']);
 
   //ASSUMPTION - By the time we run grunt upload,
   //we assume that the user has run git commit for their
