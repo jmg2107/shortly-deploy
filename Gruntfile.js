@@ -10,11 +10,12 @@ module.exports = function(grunt) {
           separator: ';',
         },
         dist: {
-          src: ['./server.js',
-                './index.js',
-                './public/lib/*.js',
-                './public/client/*.js',
-                './lib/*.js'
+          src: [
+                //'./public/lib/*.js',
+                './public/client/*.js'
+                // './lib/*.js',
+                // './server.js',
+                // './index.js',
                 ],
 
           dest: './public/dist/built.js',
@@ -38,6 +39,10 @@ module.exports = function(grunt) {
 
     uglify: {
       dist: { //can add options to uglify ie. source map/gzip
+        options: {
+        sourceMap: true,
+        sourceMapName: './public/dist/sourcemap.map'
+        },
         files: {
           './public/dist/built.min.js':
           ['./public/dist/built.js']
@@ -148,6 +153,9 @@ module.exports = function(grunt) {
     'test'
   ]);
 
+  //ASSUMPTION - By the time we run grunt upload,
+  //we assume that the user has run git commit for their
+  //pending files
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       // add your production server task here
@@ -167,7 +175,7 @@ module.exports = function(grunt) {
       // add your production server task here
       grunt.task.run([
         'build',
-        'upload' + n
+        'upload:prod'
         ]);
     } else {
       grunt.task.run([
