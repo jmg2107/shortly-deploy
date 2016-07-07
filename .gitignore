@@ -14,7 +14,7 @@ Icon
 .flooignore
 
 # Build files
-#public/dist/
+public/dist/
 
 # Node modules
 node_modules/

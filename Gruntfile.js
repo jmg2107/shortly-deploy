@@ -11,11 +11,7 @@ module.exports = function(grunt) {
         },
         dist: {
           src: [
-                //'./public/lib/*.js',
                 './public/client/*.js'
-                // './lib/*.js',
-                // './server.js',
-                // './index.js',
                 ],
 
           dest: './public/dist/built.js',
@@ -99,12 +95,6 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      // multiple: {
-      //       command: [
-      //           'git add .',
-      //           'ls'
-      //       ].join('&&')
-      // }
 
       prodServer: {
         command: 'git push heroku master'
@@ -152,6 +142,8 @@ module.exports = function(grunt) {
     'cssmin',
     'test'
   ]);
+
+  grunt.registerTask('default', ['build']);
 
   //ASSUMPTION - By the time we run grunt upload,
   //we assume that the user has run git commit for their
