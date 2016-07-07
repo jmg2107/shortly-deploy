@@ -140,7 +140,6 @@ module.exports = function(grunt) {
     'uglify',
     'jshint',
     'cssmin',
-    'test'
   ]);
 
   grunt.registerTask('heroku:production', ['build']);
@@ -167,11 +166,13 @@ module.exports = function(grunt) {
       // add your production server task here
       grunt.task.run([
         'build',
+        'test',
         'upload:prod'
         ]);
     } else {
       grunt.task.run([
         'build',
+        'test',
         'upload'
          ]);
     }
